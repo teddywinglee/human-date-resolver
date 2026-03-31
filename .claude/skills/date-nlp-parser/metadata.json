@@ -1,0 +1,23 @@
+{
+    "name": "date-nlp-parser",
+    "description": "Parses natural language date expressions in any language into structured intent JSON",
+    "category": "utility",
+    "author": {
+        "name": "Ted Lee",
+        "github": "https://github.com/teddywinglee"
+    },
+    "version": "0.1.0",
+    "requires": {
+        "tools": [],
+        "services": [],
+        "code": false
+    },
+    "tags": ["date", "nlp", "parsing", "multilingual"],
+    "difficulty": "beginner",
+    "portability": {
+        "claude-code": true,
+        "cursor": true,
+        "codex": true,
+        "notes": "Pure LLM skill, no dependencies"
+    }
+}

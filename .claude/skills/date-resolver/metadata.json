@@ -1,0 +1,26 @@
+{
+    "name": "date-resolver",
+    "description": "Resolves natural language dates to ISO 8601 and Unix timestamps using LLM parsing + deterministic computation",
+    "category": "utility",
+    "author": {
+        "name": "Ted Lee",
+        "github": "https://github.com/teddywinglee"
+    },
+    "version": "0.1.0",
+    "requires": {
+        "tools": ["Bash"],
+        "services": [],
+        "code": true,
+        "runtime": "python>=3.14",
+        "package_manager": "uv",
+        "dependencies": ["tzdata"]
+    },
+    "tags": ["date", "nlp", "timestamp", "multilingual", "orchestrator"],
+    "difficulty": "intermediate",
+    "portability": {
+        "claude-code": true,
+        "cursor": false,
+        "codex": false,
+        "notes": "Requires full repo clone and uv sync — depends on src/compute_date.py"
+    }
+}
