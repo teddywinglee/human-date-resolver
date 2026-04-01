@@ -23,6 +23,7 @@ Analyze the natural language date expression and produce a JSON intent object. U
 - `{"type": "weekday", "direction": "next"|"last"|"this", "value": "<lowercase weekday>"}` — e.g., next Tuesday
 - `{"type": "relative_period", "unit": "week"|"month"|"year", "value": <int>}` — e.g., next month = 1
 - `{"type": "month_day", "month_offset": <int>, "day": <int>}` — e.g., 1st of next month
+- `{"type": "absolute_date", "year": <int>, "month": <int>, "day": <int>}` — e.g., April 23, 2018
 
 Always use lowercase English weekday names regardless of input language.
 

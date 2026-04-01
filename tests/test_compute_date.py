@@ -117,6 +117,36 @@ class TestMonthDay:
         assert result["date"] == "2026-04-30T00:00:00+00:00"
 
 
+class TestAbsoluteDate:
+    def test_basic(self):
+        result = compute({"type": "absolute_date", "year": 2018, "month": 4, "day": 23}, BASE, "UTC")
+        assert result["date"] == "2018-04-23T00:00:00+00:00"
+
+    def test_ignores_base_date(self):
+        """absolute_date should produce the same result regardless of base date."""
+        r1 = compute({"type": "absolute_date", "year": 2018, "month": 4, "day": 23}, "2020-01-01", "UTC")
+        r2 = compute({"type": "absolute_date", "year": 2018, "month": 4, "day": 23}, "2026-12-25", "UTC")
+        assert r1["date"] == r2["date"]
+
+    def test_day_clamping(self):
+        """Requesting Feb 30 should clamp to Feb 28 (non-leap year)."""
+        result = compute({"type": "absolute_date", "year": 2023, "month": 2, "day": 30}, BASE, "UTC")
+        assert result["date"] == "2023-02-28T00:00:00+00:00"
+
+    def test_leap_year(self):
+        result = compute({"type": "absolute_date", "year": 2024, "month": 2, "day": 29}, BASE, "UTC")
+        assert result["date"] == "2024-02-29T00:00:00+00:00"
+
+    def test_with_timezone(self):
+        result = compute({"type": "absolute_date", "year": 2018, "month": 4, "day": 23}, BASE, "Asia/Tokyo")
+        assert result["date"] == "2018-04-23T00:00:00+09:00"
+
+    def test_timestamp(self):
+        """2018-04-23 UTC = 1524441600 seconds = 1524441600000 ms."""
+        result = compute({"type": "absolute_date", "year": 2018, "month": 4, "day": 23}, BASE, "UTC")
+        assert result["timestamp"] == 1524441600000
+
+
 class TestTimezone:
     def test_new_york(self):
         result = compute({"type": "relative_days", "value": 1}, BASE, "America/New_York")

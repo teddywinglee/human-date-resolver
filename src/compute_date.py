@@ -16,6 +16,9 @@ Intent schema:
   {"type": "month_day", "direction": "next"|"last"|"this", "month_offset": int, "day": int}
     e.g., first day of next month = {"type": "month_day", "month_offset": 1, "day": 1}
 
+  {"type": "absolute_date", "year": int, "month": int, "day": int}
+    e.g., April 23, 2018 = {"type": "absolute_date", "year": 2018, "month": 4, "day": 23}
+
 Usage:
   python compute_date.py '<intent_json>' [base_date] [timezone]
 
@@ -84,6 +87,11 @@ def compute_month_day(base, month_offset, day):
     return base.replace(year=year, month=month, day=day)
 
 
+def compute_absolute_date(tz, year, month, day):
+    day = min(day, _days_in_month(year, month))
+    return datetime(year, month, day, tzinfo=tz)
+
+
 def _days_in_month(year, month):
     if month == 12:
         return (datetime(year + 1, 1, 1) - datetime(year, 12, 1)).days
@@ -108,6 +116,8 @@ def compute(intent, base_date_str=None, timezone_str="UTC"):
         result = compute_relative_period(base, intent["unit"], intent["value"])
     elif intent_type == "month_day":
         result = compute_month_day(base, intent["month_offset"], intent["day"])
+    elif intent_type == "absolute_date":
+        result = compute_absolute_date(tz, intent["year"], intent["month"], intent["day"])
     else:
         raise ValueError(f"Unknown intent type: {intent_type}")
 

@@ -53,8 +53,25 @@ For expressions targeting a specific day within a relative month.
 `month_offset` is relative to the current month (1 = next, -1 = last, 0 = this).
 `day` is the day of the month (1-31).
 
+### absolute_date
+For expressions that specify an explicit calendar date (not relative to today).
+- "2018-04-23" → `{"type": "absolute_date", "year": 2018, "month": 4, "day": 23}`
+- "April 23, 2018" → `{"type": "absolute_date", "year": 2018, "month": 4, "day": 23}`
+- "23/4/2018" → `{"type": "absolute_date", "year": 2018, "month": 4, "day": 23}`
+- "2018年4月23日" → `{"type": "absolute_date", "year": 2018, "month": 4, "day": 23}`
+
+`year`, `month`, `day` are integers. `year` must be 4 digits (expand 2-digit years: 00-49 → 2000-2049, 50-99 → 1950-1999).
+
+**Disambiguating date formats:**
+When the format is ambiguous (e.g., `"3/4/25"`), default to **MM/DD/YY** (US convention). Use these heuristics:
+- A value > 12 cannot be a month → it must be a day (e.g., `"25/2/13"` → day=25, month=2, year=2013)
+- A 4-digit number is always a year (e.g., `"2018-04-23"` → year=2018)
+- If the first value > 31, it is a year (e.g., `"2018/04/23"` → YY/MM/DD)
+- Separators can be `-`, `/`, or `.`
+
 ## Rules
 - Always output the weekday `value` in lowercase English, regardless of input language
 - Choose the most specific intent type that fits the expression
 - "next week" is `relative_period`, but "next Monday" is `weekday`
+- Prefer `absolute_date` when the expression contains an explicit calendar date
 - Respond ONLY with the JSON object, no markdown fences, no explanation
