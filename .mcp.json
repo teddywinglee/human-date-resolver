@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "human-date-resolver": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "src.mcp_server"],
+      "cwd": "F:\\project\\human-date-resolver"
+    }
+  }
+}
