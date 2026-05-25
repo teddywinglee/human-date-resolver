@@ -50,6 +50,19 @@ User-facing orchestrator. Parses the expression, computes the date, and returns 
 | `weekday` | "next Tuesday" | `{"type": "weekday", "direction": "next", "value": "tuesday"}` |
 | `relative_period` | "in 2 months" | `{"type": "relative_period", "unit": "month", "value": 2}` |
 | `month_day` | "1st of next month" | `{"type": "month_day", "month_offset": 1, "day": 1}` |
+| `absolute_date` | "April 23, 2018" | `{"type": "absolute_date", "year": 2018, "month": 4, "day": 23}` |
+
+## MCP Server
+
+The resolver is also available as an [MCP](https://modelcontextprotocol.io) tool, letting any MCP-compatible client (e.g. Claude Code) call it directly.
+
+The server exposes a single tool: **`resolve_date`**. The LLM constructs a structured intent (same schema as `/date-nlp-parser`) and calls the tool to get back the ISO 8601 date and Unix timestamp.
+
+```bash
+uv run python -m src.mcp_server   # start the server
+```
+
+The `.mcp.json` at the repo root registers the server for Claude Code automatically.
 
 ## Lessons Learned
 
